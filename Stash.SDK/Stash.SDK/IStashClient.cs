@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stash.SDK.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Stash.SDK
 {
     public interface IStashClient
     {
+        List<Project> GetProjects();
     }
 }

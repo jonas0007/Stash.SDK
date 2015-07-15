@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using Stash.SDK.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace Stash.SDK
 {
     public class StashClient : IStashClient
     {
-        protected enum StashObjectEnum
+        public enum StashObjectEnum
         {
             Projects
         }
 
         protected RestClient Client { get; set; }
 
-        protected const String StashServiceURI = "/rest/greenhopper/latest";
+        protected const String StashServiceURI = "/rest/api/latest";
 
         protected Dictionary<StashObjectEnum, String> _methods = new Dictionary<StashObjectEnum, String>()
         {
@@ -52,7 +53,7 @@ namespace Stash.SDK
             return Execute<List<T>>(objectType, parameters, keys);
         }
 
-        protected T Execute<T>(StashObjectEnum objectType, Dictionary<String, String> parameters = null, Dictionary<String, String> keys = null) where T : new()
+        public T Execute<T>(StashObjectEnum objectType, Dictionary<String, String> parameters = null, Dictionary<String, String> keys = null) where T : new()
         {
             IRestResponse<T> response = Client.Execute<T>(GetRequest(objectType, parameters ?? new Dictionary<String, String>(), keys ?? new Dictionary<String, String>()));
 
@@ -68,7 +69,7 @@ namespace Stash.SDK
             return response.Data;
         }
 
-        protected RestRequest GetRequest(StashObjectEnum objectType, Dictionary<String, String> parameters,
+        public RestRequest GetRequest(StashObjectEnum objectType, Dictionary<String, String> parameters,
             Dictionary<String, String> keys)
         {
             if (!_methods.ContainsKey(objectType))
@@ -77,7 +78,7 @@ namespace Stash.SDK
             return GetRequest(_methods[objectType], parameters, keys);
         }
 
-        protected RestRequest GetRequest(String url, Dictionary<String, String> parameters, Dictionary<String, String> keys)
+        public RestRequest GetRequest(String url, Dictionary<String, String> parameters, Dictionary<String, String> keys)
         {
             RestRequest request = new RestRequest(url, Method.GET)
             {
@@ -97,6 +98,19 @@ namespace Stash.SDK
             }
 
             return request;
+        }
+
+        public List<Domain.Project> GetProjects()
+        {
+            List<Project> projects = GetItem<List<Project>>(StashObjectEnum.Projects, new Dictionary<string, string>(), new Dictionary<string, string>());
+
+            //If stash returns a list of 1 project which is empty, the method should return an empty list of projects
+            if(projects.Count == 1 && projects[0].ID == 0)
+            {
+                projects = new List<Project>();
+            }
+
+            return projects;
         }
     }
 }

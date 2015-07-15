@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stash.SDK.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,11 @@ namespace Stash.SDK
         public void Connect(String url, String username, String password)
         {
             Connect(new StashClient(url, username, password));
+        }
+
+        public List<Project> GetProjects()
+        {
+            return Client.GetProjects();
         }
     }
 }

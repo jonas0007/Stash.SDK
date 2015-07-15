@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Project.cs" />
+    <Compile Include="Domain\ProjectSearchResult.cs" />
     <Compile Include="IStashClient.cs" />
     <Compile Include="Stash.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
