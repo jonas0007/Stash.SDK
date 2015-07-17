@@ -8,7 +8,6 @@
     <owners>$author$</owners>
     <licenseUrl>https://github.com/jonas0007/Stash.SDK/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/jonas0007/Stash.SDK</projectUrl>
-    <iconUrl></iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <copyright>Copyright 2015</copyright>
