@@ -45,7 +45,12 @@
   <ItemGroup>
     <Compile Include="Domain\Project.cs" />
     <Compile Include="Domain\ProjectSearchResult.cs" />
+    <Compile Include="Domain\PullRequestSearchResult.cs" />
+    <Compile Include="Domain\Repository.cs" />
+    <Compile Include="Domain\RepositorySearchResult.cs" />
+    <Compile Include="Domain\User.cs" />
     <Compile Include="IStashClient.cs" />
+    <Compile Include="Domain\PullRequest.cs" />
     <Compile Include="Stash.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StashClient.cs" />

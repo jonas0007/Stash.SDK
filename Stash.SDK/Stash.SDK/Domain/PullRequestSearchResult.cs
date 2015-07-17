@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Stash.SDK.Domain
 {
-    public class ProjectSearchResult
+    public class PullRequestSearchResult
     {
-        public List<Project> Values { get; set; }
+        public List<PullRequest> Values { get; set; }
     }
 }

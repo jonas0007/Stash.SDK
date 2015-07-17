@@ -29,7 +29,10 @@ namespace Stash.SDK
 
         public List<Project> GetProjects()
         {
-            return Client.GetProjects();
+            List<Project> projects = Client.GetProjects();
+            projects.ForEach(project => project.SetStash(this));
+
+            return projects;
         }
     }
 }

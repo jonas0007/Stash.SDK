@@ -12,7 +12,9 @@ namespace Stash.SDK
     {
         public enum StashObjectEnum
         {
-            Projects
+            Projects,
+            Repositories,
+            RepositoryPullRequests
         }
 
         protected RestClient Client { get; set; }
@@ -21,7 +23,9 @@ namespace Stash.SDK
 
         protected Dictionary<StashObjectEnum, String> _methods = new Dictionary<StashObjectEnum, String>()
         {
-            { StashObjectEnum.Projects, String.Format("{0}/projects/", StashServiceURI)}
+            { StashObjectEnum.Projects, String.Format("{0}/projects/", StashServiceURI)},
+            { StashObjectEnum.Repositories, String.Format("{0}/projects/{{projectKey}}/repos", StashServiceURI)},
+            { StashObjectEnum.RepositoryPullRequests, String.Format("{0}/projects/{{projectKey}}/repos/{{repoSlug}}/pull-requests", StashServiceURI)}
         };
 
         public StashClient(RestClient client)
@@ -102,15 +106,31 @@ namespace Stash.SDK
 
         public List<Domain.Project> GetProjects()
         {
-            List<Project> projects = GetItem<List<Project>>(StashObjectEnum.Projects, new Dictionary<string, string>(), new Dictionary<string, string>());
+            List<Project> projects = GetItem<ProjectSearchResult>(StashObjectEnum.Projects, new Dictionary<string, string>(), new Dictionary<string, string>()).Values;
 
             //If stash returns a list of 1 project which is empty, the method should return an empty list of projects
-            if(projects.Count == 1 && projects[0].ID == 0)
+            if (projects.Count == 1 && projects[0].ID == 0)
             {
                 projects = new List<Project>();
             }
 
             return projects;
         }
+
+        public List<Repository> GetRepositoriesFromProject(String projectKey)
+        {
+            List<Repository> repositories = GetItem<RepositorySearchResult>(StashObjectEnum.Repositories, keys: new Dictionary<string, string>() { { "projectKey", projectKey } }).Values;
+            return repositories;
+        }
+
+        public List<PullRequest> GetPullRequestsFromRepository(String projectKey, String repositorySlug, String pullRequestState)
+        {
+            List<PullRequest> pullRequests = GetItem<PullRequestSearchResult>(StashObjectEnum.RepositoryPullRequests,
+                keys: new Dictionary<String, String>() { { "projectKey", projectKey }, { "repoSlug", repositorySlug } },
+                parameters: new Dictionary<String, String>() { { "state", pullRequestState } }).Values;
+
+            return pullRequests;
+        }
     }
 }
+
