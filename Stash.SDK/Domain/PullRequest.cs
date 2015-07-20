@@ -24,5 +24,21 @@ namespace Stash.SDK.Domain
         public Double CreatedDate { get; set; }
         public Double UpdatedDate { get; set; }
         public User Author { get; set; }
+
+        public DateTime Created
+        {
+            get
+            {
+                return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(CreatedDate);
+            }
+        }
+
+        public DateTime Updated
+        {
+            get
+            {
+                return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(UpdatedDate);
+            }
+        }
     }
 }
