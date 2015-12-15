@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using RestSharp.Authenticators;
 using Stash.SDK.Domain;
 using System;
 using System.Collections.Generic;
